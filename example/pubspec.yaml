@@ -1,6 +1,8 @@
 name: flutter_zendesk_support_example
 description: Demonstrates how to use the flutter_zendesk_support plugin.
 publish_to: 'none'
+#publish_to: 'https://pub.dev/packages'
+version: 1.0.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

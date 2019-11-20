@@ -2,12 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import 'flutter_zendesk_support_dtos.dart';
+
+export 'flutter_zendesk_support_dtos.dart';
+
 class FlutterZendeskSupport {
   static const MethodChannel _channel =
       const MethodChannel('flutter_zendesk_support');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  static Future<bool> init(ZendeskSupportSettings settings) async {
+    return await _channel.invokeMethod('init', settings.toJson());
+  }
+  static Future<bool> openHelpCenter([List<int> articles]) async {
+    return await _channel.invokeMethod('openHelpCenter');
+  }
+  static Future<bool> openTicket() async {
+    return await _channel.invokeMethod('openTicket');
+  }
+  static Future<bool> openTickets() async {
+    return await _channel.invokeMethod('openTickets');
   }
 }

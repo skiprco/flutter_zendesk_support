@@ -3,19 +3,23 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_zendesk_support'
-  s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
+  s.version          = '1.0.0'
+  s.summary          = 'A Zendesk Support SDK Flutter plugin.'
   s.description      = <<-DESC
-A new flutter plugin project.
+  A Zendesk Support SDK Flutter plugin.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'http://skipr.co'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Skipr' => 'skipr@skipr.co' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
+  s.ios.vendored_frameworks = 'Frameworks/ZendeskSDK.framework'
+  s.static_framework = true
+  s.platform = '10.0'
+  s.ios.deployment_target = '10.0'
 
-  s.ios.deployment_target = '8.0'
+  s.dependency 'ZendeskSDK', '4.0.0'
 end
 
