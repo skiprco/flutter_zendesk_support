@@ -17,7 +17,7 @@ void main() {
   });
 
   test('init', () async {
-    var settings = ZendeskSupportSettings(
+    var settings = SupportSettings(
       appId: "",
       clientId: "",
       url: ""

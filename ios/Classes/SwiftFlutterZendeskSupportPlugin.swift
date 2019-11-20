@@ -14,25 +14,44 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
     if flutterMethodCall.method.elementsEqual("init"){
         let args = flutterMethodCall.arguments as? NSDictionary
 
-        let appId = args!["appId"]as? String
-        let clientId  = args!["clientId"]as? String
-        let url = args!["url"]as? String
+        let url = args!["url"] as? String
+        let appId = args!["appId"] as? String
+        let clientId = args!["clientId"] as? String
 
         Zendesk.initialize(appId: appId!,
                            clientId: clientId!,
                            zendeskUrl: url!)
+        
         Support.initialize(withZendesk: Zendesk.instance)
 
-        let ident = Identity.createAnonymous()
-        Zendesk.instance?.setIdentity(ident)
+        let identity = Identity.createAnonymous()
+        //let identity = Identity.createJwt(token: "get_unique_id")
+        Zendesk.instance?.setIdentity(identity)
+    }
+    
+    if flutterMethodCall.method.elementsEqual("authenticate"){
+        let args = flutterMethodCall.arguments as? NSDictionary
+
+        let token = args!["token"] as? String
+        let name = args!["name"] as? String
+        let email = args!["email"] as? String
+
+        var identity : Identity;
+        if (token != nil) {
+            identity = Identity.createJwt(token: token!)
+        } else {
+            identity = Identity.createAnonymous(name:name, email:email)
+        }
+        
+        Zendesk.instance?.setIdentity(identity)
     }
 
     if flutterMethodCall.method.elementsEqual("openHelpCenter"){
         // HELP CENTER
-        //TODO : check if inited
+        //TODO : check if inited & auth done
         let hcConfig = HelpCenterUiConfiguration()
         hcConfig.groupType = .section
-        hcConfig.groupIds = [1234, 5678] //TODO
+        hcConfig.groupIds = [1234, 5678] //TODO let appId = args!["ids"]as? String list
         let vc = HelpCenterUi.buildHelpCenterOverviewUi(withConfigs: [hcConfig])
 
         self.openViewController(vc:vc)
@@ -40,7 +59,7 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
 
     if flutterMethodCall.method.elementsEqual("openTicket"){
         // REQUESTS
-        //TODO : check if inited
+        //TODO : check if inited & auth done
         let config = RequestUiConfiguration()
         config.subject = "Ticket"
         config.tags = ["ios"]
@@ -51,7 +70,7 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
 
     if flutterMethodCall.method.elementsEqual("openTickets"){
         // REQUESTS
-        //TODO : check if inited
+        //TODO : check if inited & auth done
         let vc = RequestUi.buildRequestList()
 
         self.openViewController(vc:vc)
@@ -59,17 +78,25 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
   }
 
   func openViewController(vc: UIViewController){
-    if let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController {
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     let window: UIWindow = ((UIApplication.shared.delegate?.window)!)!
     
+    if let navigationController = window.rootViewController as? UINavigationController {
+        navigationController.pushViewController(vc, animated: true)
+        return
+    }
+
+    let flutterViewController = window.rootViewController as! FlutterViewController;
+
+    // MODAL
     //vc.modalPresentationStyle = .
-    
-    let flutterViewController  = window.rootViewController as? FlutterViewController;
-    flutterViewController?.present(vc, animated: true, completion: {
-        //TODO async return
-    })
+    //flutterViewController?.present(vc, animated: true, completion: {})
+
+    // PUSH
+    window.rootViewController = nil
+    let navigationController = UINavigationController(rootViewController: flutterViewController)
+    //navigationController.setNavigationBarHidden(true, animated: false)
+    window.rootViewController = navigationController
+    //window.makeKeyAndVisible()
+    navigationController.pushViewController(vc, animated: true)
   }
 }

@@ -10,15 +10,22 @@ class FlutterZendeskSupport {
   static const MethodChannel _channel =
       const MethodChannel('flutter_zendesk_support');
 
-  static Future<bool> init(ZendeskSupportSettings settings) async {
+  static Future<bool> init(SupportSettings settings) async {
     return await _channel.invokeMethod('init', settings.toJson());
   }
+
+  static Future<bool> authenticate(SupportAuthentication auth) async {
+    return await _channel.invokeMethod('authenticate', auth.toJson());
+  }
+
   static Future<bool> openHelpCenter([List<int> articles]) async {
     return await _channel.invokeMethod('openHelpCenter');
   }
+
   static Future<bool> openTicket() async {
     return await _channel.invokeMethod('openTicket');
   }
+
   static Future<bool> openTickets() async {
     return await _channel.invokeMethod('openTickets');
   }

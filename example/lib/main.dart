@@ -26,7 +26,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    //TODO ASYNC
     FlutterZendeskSupport.init(zendeskSupportSettings);
+    FlutterZendeskSupport.authenticate(SupportAuthentication.jwt('test'));
   }
 
   @override

@@ -6,19 +6,25 @@ part of 'flutter_zendesk_support_dtos.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ZendeskSupportSettings _$ZendeskSupportSettingsFromJson(
-    Map<String, dynamic> json) {
-  return ZendeskSupportSettings(
+SupportSettings _$SupportSettingsFromJson(Map<String, dynamic> json) {
+  return SupportSettings(
     appId: json['appId'] as String,
     clientId: json['clientId'] as String,
     url: json['url'] as String,
   );
 }
 
-Map<String, dynamic> _$ZendeskSupportSettingsToJson(
-        ZendeskSupportSettings instance) =>
+Map<String, dynamic> _$SupportSettingsToJson(SupportSettings instance) =>
     <String, dynamic>{
       'appId': instance.appId,
       'clientId': instance.clientId,
       'url': instance.url,
+    };
+
+Map<String, dynamic> _$SupportAuthenticationToJson(
+        SupportAuthentication instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'name': instance.name,
+      'email': instance.email,
     };
