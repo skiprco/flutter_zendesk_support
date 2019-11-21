@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     super.initState();
     //TODO ASYNC
     FlutterZendeskSupport.init(zendeskSupportSettings);
-    FlutterZendeskSupport.authenticate(SupportAuthentication.jwt('test'));
+    FlutterZendeskSupport.authenticate(SupportAuthentication.jwt('test_token'));
   }
 
   @override
@@ -39,8 +39,9 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.headset_mic),
-        onPressed: () async => await FlutterZendeskSupport.openTickets(),
-        //onPressed: () async => await FlutterZendeskSupport.openHelpCenter(),
+        //onPressed: () async => await FlutterZendeskSupport.openTickets(),
+        //onPressed: () => FlutterZendeskSupport.openTicket(RequestTicket('12')),
+        onPressed: () async => await FlutterZendeskSupport.openHelpCenter(),
       ),
     );
   }

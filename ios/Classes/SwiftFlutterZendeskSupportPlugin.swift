@@ -3,7 +3,8 @@ import UIKit
 import ZendeskSDK
 import ZendeskCoreSDK
 
-public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
+public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINavigationControllerDelegate
+{
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_zendesk_support", binaryMessenger: registrar.messenger())
     let instance = SwiftFlutterZendeskSupportPlugin()
@@ -49,9 +50,24 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
     if flutterMethodCall.method.elementsEqual("openHelpCenter"){
         // HELP CENTER
         //TODO : check if inited & auth done
+        let args = flutterMethodCall.arguments as? NSDictionary
+
+        let groupType = args!["groupType"] as? String
+        let groupIds = args!["groupIds"] as? [NSNumber]
+
+        // todo: multiple grouptypes possible
         let hcConfig = HelpCenterUiConfiguration()
-        hcConfig.groupType = .section
-        hcConfig.groupIds = [1234, 5678] //TODO let appId = args!["ids"]as? String list
+        switch(groupType) {
+        case "category":
+            hcConfig.groupType = .category
+        case "section":
+            hcConfig.groupType = .section
+        default:
+            hcConfig.groupType = .default
+        }
+        if (groupIds != nil) {
+            hcConfig.groupIds = groupIds!
+        }
         let vc = HelpCenterUi.buildHelpCenterOverviewUi(withConfigs: [hcConfig])
 
         self.openViewController(vc:vc)
@@ -60,10 +76,16 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
     if flutterMethodCall.method.elementsEqual("openTicket"){
         // REQUESTS
         //TODO : check if inited & auth done
+        let args = flutterMethodCall.arguments as? NSDictionary
+
+        let id = args!["id"] as! String
+        let title = args!["title"] as? String
+        let tags = args!["tags"] as? [String]
+
         let config = RequestUiConfiguration()
-        config.subject = "Ticket"
-        config.tags = ["ios"]
-        let vc = RequestUi.buildRequestUi(with: [config])
+        if (title != nil) { config.subject = title! }
+        if (tags != nil) { config.tags = tags! }
+        let vc = RequestUi.buildRequestUi(requestId: id, configurations: [config])
 
         self.openViewController(vc:vc)
     }
@@ -94,9 +116,19 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin {
     // PUSH
     window.rootViewController = nil
     let navigationController = UINavigationController(rootViewController: flutterViewController)
-    //navigationController.setNavigationBarHidden(true, animated: false)
+    navigationController.delegate = self
+    navigationController.setNavigationBarHidden(false, animated: false)
     window.rootViewController = navigationController
     //window.makeKeyAndVisible()
     navigationController.pushViewController(vc, animated: true)
+  }
+    
+  public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool)
+  {
+    if (viewController is FlutterViewController) {
+      navigationController.setNavigationBarHidden(true, animated: false)
+    }else{
+      navigationController.setNavigationBarHidden(false, animated: false)
+    }
   }
 }

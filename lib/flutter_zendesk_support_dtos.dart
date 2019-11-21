@@ -1,12 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'flutter_zendesk_support_dtos.g.dart';
-
-//  flutter pub run build_runner build --delete-conflicting-outputs
-
-@JsonSerializable(nullable: false)
-class SupportSettings{
+class SupportSettings {
   String appId, clientId, url;
 
   SupportSettings({
@@ -15,12 +9,15 @@ class SupportSettings{
     @required this.url
   });
 
-  factory SupportSettings.fromJson(Map<String, dynamic> json) => _$SupportSettingsFromJson(json);
-  Map<String, dynamic> toJson() => _$SupportSettingsToJson(this);
+  Map<String, dynamic> toJson()
+    => <String, dynamic>{
+      'appId': this.appId,
+      'clientId': this.clientId,
+      'url': this.url,
+    };
 }
 
-@JsonSerializable(nullable: false, createFactory: false)
-class SupportAuthentication{
+class SupportAuthentication {
   final String token, name, email;
 
   SupportAuthentication._({this.name, this.email, this.token});
@@ -30,11 +27,30 @@ class SupportAuthentication{
   factory SupportAuthentication.jwt(String token)
     => SupportAuthentication._(token:token);
 
-  factory SupportAuthentication.fromJson(Map<String, dynamic> json)
-    => SupportAuthentication._(
-      token: json['token'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String);
+  Map<String, dynamic> toJson()
+    => <String, dynamic>{
+      'token': this.token,
+      'name': this.name,
+      'email': this.email,
+    };
+}
 
-  Map<String, dynamic> toJson() => _$SupportAuthenticationToJson(this);
+class RequestTicket {
+  final String id, title;
+  final List<String> tags;
+
+  RequestTicket(this.id, {this.title, this.tags});
+
+  Map<String, dynamic> toJson()
+    => <String, dynamic>{
+      'id': this.id,
+      'title': this.title,
+      'tags': this.tags,
+    };
+}
+
+enum HelpCenterOverviewGroupType {
+  none,
+  section,
+  category
 }

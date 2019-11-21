@@ -18,12 +18,24 @@ class FlutterZendeskSupport {
     return await _channel.invokeMethod('authenticate', auth.toJson());
   }
 
-  static Future<bool> openHelpCenter([List<int> articles]) async {
-    return await _channel.invokeMethod('openHelpCenter');
+  static Future<bool> openHelpCenter({
+    HelpCenterOverviewGroupType groupType = HelpCenterOverviewGroupType.none,
+    List<int> groupIds
+  }) async {
+    var map = Map<String, dynamic>();
+    if (groupType != HelpCenterOverviewGroupType.none)
+      map['groupType'] = (groupType == HelpCenterOverviewGroupType.category)
+        ? "category"
+        : "section";
+
+    if (groupIds != null)
+      map['groupIDs'] = groupIds;
+
+    return await _channel.invokeMethod('openHelpCenter', map);
   }
 
-  static Future<bool> openTicket() async {
-    return await _channel.invokeMethod('openTicket');
+  static Future<bool> openTicket(RequestTicket ticket) async {
+    return await _channel.invokeMethod('openTicket', ticket.toJson());
   }
 
   static Future<bool> openTickets() async {

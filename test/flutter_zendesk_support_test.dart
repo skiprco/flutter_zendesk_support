@@ -30,6 +30,9 @@ void main() {
   });
 
   test('openHelp', () async {
-    expect(await FlutterZendeskSupport.openHelpCenter([]), true);
+    expect(await FlutterZendeskSupport.openHelpCenter(
+        groupType:HelpCenterOverviewGroupType.none,
+        groupIds:[12]
+    ), true);
   });
 }
