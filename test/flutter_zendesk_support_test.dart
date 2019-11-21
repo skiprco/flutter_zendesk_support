@@ -26,7 +26,7 @@ void main() {
   });
 
   test('openRequests', () async {
-    expect(await FlutterZendeskSupport.openTicket(), true);
+    expect(await FlutterZendeskSupport.openTicket(RequestTicket("ABCD")), true);
   });
 
   test('openHelp', () async {

@@ -22,12 +22,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
     //TODO ASYNC
+
+    // Don't forget to change your zendeskSupportSettings inside params.dart
     FlutterZendeskSupport.init(zendeskSupportSettings);
+
+    //FlutterZendeskSupport.authenticate(SupportAuthentication.anonymous('user name', 'user@email.com'));
     FlutterZendeskSupport.authenticate(SupportAuthentication.jwt('test_token'));
   }
 
@@ -38,7 +41,7 @@ class _HomeState extends State<Home> {
         title: const Text('Zendesk Support'),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.headset_mic),
+        child: Icon(Icons.live_help),
         //onPressed: () async => await FlutterZendeskSupport.openTickets(),
         //onPressed: () => FlutterZendeskSupport.openTicket(RequestTicket('12')),
         onPressed: () async => await FlutterZendeskSupport.openHelpCenter(),
