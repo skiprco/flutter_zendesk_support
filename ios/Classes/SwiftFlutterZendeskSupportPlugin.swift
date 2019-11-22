@@ -12,9 +12,9 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINaviga
   }
 
   public func handle(_ flutterMethodCall: FlutterMethodCall, result: @escaping FlutterResult) {
-    if flutterMethodCall.method.elementsEqual("init"){
-        let args = flutterMethodCall.arguments as? NSDictionary
+    let args = flutterMethodCall.arguments as? NSDictionary
 
+    if flutterMethodCall.method.elementsEqual("init"){
         let url = args!["url"] as? String
         let appId = args!["appId"] as? String
         let clientId = args!["clientId"] as? String
@@ -26,13 +26,12 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINaviga
         Support.initialize(withZendesk: Zendesk.instance)
 
         let identity = Identity.createAnonymous()
-        //let identity = Identity.createJwt(token: "get_unique_id")
         Zendesk.instance?.setIdentity(identity)
-    }
-    
-    if flutterMethodCall.method.elementsEqual("authenticate"){
-        let args = flutterMethodCall.arguments as? NSDictionary
 
+        result(true)
+    }
+    else if flutterMethodCall.method.elementsEqual("authenticate")
+    {
         let token = args!["token"] as? String
         let name = args!["name"] as? String
         let email = args!["email"] as? String
@@ -45,13 +44,13 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINaviga
         }
         
         Zendesk.instance?.setIdentity(identity)
-    }
 
-    if flutterMethodCall.method.elementsEqual("openHelpCenter"){
+        result(true)
+    }
+    else if flutterMethodCall.method.elementsEqual("openHelpCenter")
+    {
         // HELP CENTER
         //TODO : check if inited & auth done
-        let args = flutterMethodCall.arguments as? NSDictionary
-
         let groupType = args!["groupType"] as? String
         let groupIds = args!["groupIds"] as? [NSNumber]
 
@@ -71,13 +70,13 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINaviga
         let vc = HelpCenterUi.buildHelpCenterOverviewUi(withConfigs: [hcConfig])
 
         self.openViewController(vc:vc)
-    }
 
-    if flutterMethodCall.method.elementsEqual("openTicket"){
+        result(true)
+    }
+    else if flutterMethodCall.method.elementsEqual("openTicket")
+    {
         // REQUESTS
         //TODO : check if inited & auth done
-        let args = flutterMethodCall.arguments as? NSDictionary
-
         let id = args!["id"] as! String
         let title = args!["title"] as? String
         let tags = args!["tags"] as? [String]
@@ -88,14 +87,22 @@ public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINaviga
         let vc = RequestUi.buildRequestUi(requestId: id, configurations: [config])
 
         self.openViewController(vc:vc)
-    }
 
-    if flutterMethodCall.method.elementsEqual("openTickets"){
+        result(true)
+    }
+    else if flutterMethodCall.method.elementsEqual("openTickets")
+    {
         // REQUESTS
         //TODO : check if inited & auth done
         let vc = RequestUi.buildRequestList()
 
         self.openViewController(vc:vc)
+        
+        result(true)
+    }
+    else
+    {
+        result(FlutterMethodNotImplemented);
     }
   }
 
