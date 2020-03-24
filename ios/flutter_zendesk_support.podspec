@@ -15,11 +15,11 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.ios.vendored_frameworks = 'Frameworks/ZendeskSDK.framework'
-  s.static_framework = true
   s.platform = '10.0'
   s.ios.deployment_target = '10.0'
+  s.static_framework = true
 
-  s.dependency 'ZendeskSDK', '4.0.0'
+  #s.ios.vendored_frameworks = 'ZendeskSupportSDK/SupportSDK.framework'
+  s.dependency 'ZendeskSupportSDK', '~> 5.0'
 end
 
