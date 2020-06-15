@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import ZendeskSDK
+import SupportSDK
 import ZendeskCoreSDK
 
 public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINavigationControllerDelegate
