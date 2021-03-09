@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://zendesk.jfrog.io/zendesk/repo' }
     }
 
     dependencies {

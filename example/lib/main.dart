@@ -42,9 +42,9 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.live_help),
-        //onPressed: () async => await FlutterZendeskSupport.openTickets(),
+        onPressed: () async => await FlutterZendeskSupport.openTickets(),
         //onPressed: () => FlutterZendeskSupport.openTicket(RequestTicket('12')),
-        onPressed: () async => await FlutterZendeskSupport.openHelpCenter(),
+        //onPressed: () async => await FlutterZendeskSupport.openHelpCenter(),
       ),
     );
   }

@@ -6,6 +6,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://zendesk.jfrog.io/zendesk/repo' }
     }
 
     dependencies {
@@ -38,11 +39,16 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+    compileOptions {
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
+    }
+    buildToolsVersion '29.0.3'
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // ZENDESK
-    implementation group: 'com.zendesk', name: 'support', version: '3.0.2'
+    implementation group: 'com.zendesk', name: 'support', version: '5.0.2'
 }

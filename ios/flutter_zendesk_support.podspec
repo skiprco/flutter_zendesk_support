@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
   s.static_framework = true
 
   #s.ios.vendored_frameworks = 'ZendeskSupportSDK/SupportSDK.framework'
-  s.dependency 'ZendeskSupportSDK', '~> 5.0'
+  s.dependency 'ZendeskSupportSDK', '~> 5.0.3'
 end
 
