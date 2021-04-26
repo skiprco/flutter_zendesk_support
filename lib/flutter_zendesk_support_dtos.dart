@@ -1,12 +1,10 @@
-import 'package:flutter/widgets.dart';
-
 class SupportSettings {
   String appId, clientId, url;
 
   SupportSettings({
-    @required this.appId,
-    @required this.clientId,
-    @required this.url
+    required this.appId,
+    required this.clientId,
+    required this.url
   });
 
   Map<String, dynamic> toJson()
@@ -18,26 +16,27 @@ class SupportSettings {
 }
 
 class SupportAuthentication {
-  final String token, name, email;
+  final String? token, name, email;
 
   SupportAuthentication._({this.name, this.email, this.token});
 
-  factory SupportAuthentication.anonymous({String name, String email})
+  factory SupportAuthentication.anonymous({String? name, String? email})
     => SupportAuthentication._(name:name, email:email);
   factory SupportAuthentication.jwt(String token)
     => SupportAuthentication._(token:token);
 
   Map<String, dynamic> toJson()
     => <String, dynamic>{
-      'token': this.token,
-      'name': this.name,
-      'email': this.email,
+      if (this.token != null) 'token': this.token,
+      if (this.name != null) 'name': this.name,
+      if (this.email != null) 'email': this.email,
     };
 }
 
 class RequestTicket {
-  final String id, title;
-  final List<String> tags;
+  final String id;
+  final String? title;
+  final List<String>? tags;
 
   RequestTicket(this.id, {this.title, this.tags});
 

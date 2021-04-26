@@ -10,17 +10,17 @@ class FlutterZendeskSupport {
   static const MethodChannel _channel =
       const MethodChannel('flutter_zendesk_support');
 
-  static Future<bool> init(SupportSettings settings) async {
+  static Future<bool?> init(SupportSettings settings) async {
     return await _channel.invokeMethod('init', settings.toJson());
   }
 
-  static Future<bool> authenticate(SupportAuthentication auth) async {
+  static Future<bool?> authenticate(SupportAuthentication auth) async {
     return await _channel.invokeMethod('authenticate', auth.toJson());
   }
 
-  static Future<bool> openHelpCenter({
+  static Future<bool?> openHelpCenter({
     HelpCenterOverviewGroupType groupType = HelpCenterOverviewGroupType.none,
-    List<int> groupIds
+    List<int>? groupIds
   }) async {
     var map = Map<String, dynamic>();
     if (groupType != HelpCenterOverviewGroupType.none)
@@ -34,11 +34,11 @@ class FlutterZendeskSupport {
     return await _channel.invokeMethod('openHelpCenter', map);
   }
 
-  static Future<bool> openTicket(RequestTicket ticket) async {
+  static Future<bool?> openTicket(RequestTicket ticket) async {
     return await _channel.invokeMethod('openTicket', ticket.toJson());
   }
 
-  static Future<bool> openTickets() async {
+  static Future<bool?> openTickets() async {
     return await _channel.invokeMethod('openTickets');
   }
 }
