@@ -25,13 +25,18 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    //TODO ASYNC
+    init();
+  }
 
+  Future init() async {
     // Don't forget to change your zendeskSupportSettings inside params.dart
-    FlutterZendeskSupport.init(zendeskSupportSettings);
+    await FlutterZendeskSupport.init(zendeskSupportSettings);
 
-    //FlutterZendeskSupport.authenticate(SupportAuthentication.anonymous('user name', 'user@email.com'));
-    FlutterZendeskSupport.authenticate(SupportAuthentication.jwt('test_token'));
+    if (zendeskTestUserId == null) {
+      await FlutterZendeskSupport.authenticate(SupportAuthentication.anonymous(name:'test ben', email:'benoit@skipr.co'));
+    } else {
+      FlutterZendeskSupport.authenticate(SupportAuthentication.jwt(zendeskTestUserId!));
+    }
   }
 
   @override
@@ -48,4 +53,5 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
 }
