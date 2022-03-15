@@ -6,6 +6,11 @@ import ZendeskCoreSDK
 public class SwiftFlutterZendeskSupportPlugin: NSObject, FlutterPlugin, UINavigationControllerDelegate
 {
   public static func register(with registrar: FlutterPluginRegistrar) {
+    #if DEBUG
+    CoreLogger.enabled = true
+    CoreLogger.logLevel = .debug
+    #endif
+
     let channel = FlutterMethodChannel(name: "flutter_zendesk_support", binaryMessenger: registrar.messenger())
     let instance = SwiftFlutterZendeskSupportPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
