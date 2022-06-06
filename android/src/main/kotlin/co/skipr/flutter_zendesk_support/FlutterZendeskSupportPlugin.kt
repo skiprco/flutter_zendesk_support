@@ -81,7 +81,7 @@ class FlutterZendeskSupportPlugin(private val registrar: Registrar) : MethodCall
           }
         }
 
-        helpCenter.show(registrar.activity())
+        helpCenter.show(registrar.activeContext())
 
         result.success(true)
       }
@@ -99,10 +99,10 @@ class FlutterZendeskSupportPlugin(private val registrar: Registrar) : MethodCall
         if (tags != null)
           builder = builder.withTags(tags)
 
-        builder.show(registrar.activity())
+        builder.show(registrar.activeContext())
       }
       "openTickets" -> {
-        RequestListActivity.builder().show(registrar.activity())
+        RequestListActivity.builder().show(registrar.activeContext())
 
         result.success(true)
       }

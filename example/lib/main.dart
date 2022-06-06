@@ -29,13 +29,14 @@ class _HomeState extends State<Home> {
   }
 
   Future init() async {
+    final zendeskTestUserId = null; //have no idea for what
     // Don't forget to change your zendeskSupportSettings inside params.dart
     await FlutterZendeskSupport.init(zendeskSupportSettings);
 
     if (zendeskTestUserId == null) {
       await FlutterZendeskSupport.authenticate(SupportAuthentication.anonymous(name:'test ben', email:'benoit@skipr.co'));
     } else {
-      FlutterZendeskSupport.authenticate(SupportAuthentication.jwt(zendeskTestUserId!));
+      FlutterZendeskSupport.authenticate(SupportAuthentication.jwt(zendeskTestUserId));
     }
   }
 

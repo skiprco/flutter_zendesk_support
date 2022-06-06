@@ -9,3 +9,5 @@ build/
 /flutter_zendesk_support.iml
 /pubspec.lock
 /android/.idea
+
+.fvm/
